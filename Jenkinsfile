@@ -55,19 +55,18 @@ pipeline {
     }
 
     post {
-        always {
-            cleanWs()
+            always {
+                cleanWs()
+            }
+            success {
+                echo 'Pipeline Succeeded!'
+                slackSend color: 'good',
+                          message: "Build Success: ${currentBuild.fullDisplayName} (<${env.BUILD_URL}|Open>)"
+            }
+            failure {
+                // Slack Notification
+                slackSend color: 'danger',
+                          message: "Build Failed: ${currentBuild.fullDisplayName} (<${env.BUILD_URL}|Open>)"
+            }
         }
-        success {
-                    echo 'Pipeline Succeeded!'
-                    mail to: 'ls_yanouche@esi.dz',
-                         subject: "SUCCESS: ${currentBuild.fullDisplayName}",
-                         body: "The pipeline finished successfully! View results at ${env.BUILD_URL}"
-        }
-        failure {
-            mail to: 'ls_yanouche@esi.dz',
-                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-                 body: "Something went wrong. Check console output at ${env.BUILD_URL}"
-        }
-    }
 }
