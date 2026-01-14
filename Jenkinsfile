@@ -6,7 +6,7 @@ pipeline {
         REPO_URL = "${REPO_URL}"
         REPO_USER = "${REPO_USER}"
         REPO_PASS = "${REPO_PASS}"
-        scannerHome = tool 'sonar'
+        scannerHome = tool 'SonarQubeScanner' // Ensure this name matches Manage Jenkins -> Tools
     }
 
     stages {
