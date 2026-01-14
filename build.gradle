@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'maven-publish'
+    id "org.sonarqube" version "4.4.1.3373"
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+    }
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "TP7_Jenkins_Key"
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            // Jenkins will inject these variables
+            url = uri(System.getenv('REPO_URL') ?: "http://localhost")
+            credentials {
+                username = System.getenv('REPO_USER')
+                password = System.getenv('REPO_PASS')
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
