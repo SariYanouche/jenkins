@@ -67,8 +67,5 @@ pipeline {
                  subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                  body: "Something went wrong. Check console output at ${env.BUILD_URL}"
         }
-        success {
-            echo 'Pipeline Succeeded!'
-        }
     }
 }
