@@ -36,13 +36,17 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                bat 'gradlew build'
-                // Archive the Jar file
-                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
-            }
-        }
+        stage('Test') {
+                    steps {
+                        bat 'gradlew test'
+
+                        junit 'build/test-results/test/*.xml'
+
+                        cucumber buildStatus: 'UNSTABLE',
+                                 fileIncludePattern: '**/cucumber.json',
+                                 jsonReportDirectory: 'build/reports'
+                    }
+                }
 
         stage('Deploy') {
             steps {
