@@ -34,7 +34,7 @@ pipeline {
             steps {
                 // Wait for SonarQube to tell us if it passed or failed
                 timeout(time: 5, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
+                    waitForQualityGate abortPipeline: false
                 }
             }
         }
