@@ -11,13 +11,16 @@ pipeline {
 
     stages {
         stage('Test') {
-            steps {
-                // Run tests on Windows (use 'sh' if on Linux)
-                bat 'gradlew test'
-                // Archive results
-                junit 'build/test-results/test/*.xml'
-            }
-        }
+                    steps {
+                        bat 'gradlew test'
+
+                        junit 'build/test-results/test/*.xml'
+
+                        cucumber buildStatus: 'UNSTABLE',
+                                 fileIncludePattern: '**/cucumber.json',
+                                 jsonReportDirectory: 'build/reports'
+                    }
+                }
 
         stage('Code Analysis') {
             steps {
@@ -36,17 +39,13 @@ pipeline {
             }
         }
 
-        stage('Test') {
-                    steps {
-                        bat 'gradlew test'
-
-                        junit 'build/test-results/test/*.xml'
-
-                        cucumber buildStatus: 'UNSTABLE',
-                                 fileIncludePattern: '**/cucumber.json',
-                                 jsonReportDirectory: 'build/reports'
-                    }
-                }
+        stage('Build') {
+            steps {
+                bat 'gradlew build'
+                // Archive the Jar file
+                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+            }
+        }
 
         stage('Deploy') {
             steps {

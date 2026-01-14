@@ -10,5 +10,5 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @SelectClasspathResource("Features")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "json:build/reports/cucumber.json")
 public class ExampleTest {
-        
+
 }
