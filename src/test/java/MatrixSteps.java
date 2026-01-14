@@ -102,4 +102,41 @@ public class MatrixSteps {
         for (Map<String, Double> columns : rows){
             int j =0;
             Tdata[i][j]= columns.get("col1");
-            Tdata[i][j+1] = columns.ge
+            Tdata[i][j+1] = columns.get("col2");
+            i=i+1;
+        }
+        assertArrayEquals(Tdata, inverseMatrix);
+    }
+
+
+    // Cofactor
+
+    @When("I compute cofactor of")
+    public void iComputeCofactorOf(DataTable table) throws NoSquareException {
+        double [][] data = new double[2][2];
+        List<Map<String, Double>> rows = table.asMaps(String.class, Double.class);
+        int i =0;
+        for (Map<String, Double> columns : rows){
+            int j =0;
+            data[i][j]= columns.get("col1");
+            data[i][j+1] = columns.get("col2");
+            i=i+1;
+        }
+        mat.setData(data);
+        cofactorMatrix = MatrixMathematics.cofactor(mat).getValues();
+    }
+
+    @Then("The result of cofactor is")
+    public void iFindAsCofactoreResult(DataTable table) {
+        double [][] Tdata = new double[2][2];
+        List<Map<String, Double>> rows = table.asMaps(String.class, Double.class);
+        int i =0;
+        for (Map<String, Double> columns : rows){
+            int j =0;
+            Tdata[i][j]= columns.get("col1");
+            Tdata[i][j+1] = columns.get("col2");
+            i=i+1;
+        }
+        assertArrayEquals(Tdata, cofactorMatrix);
+    }
+}
