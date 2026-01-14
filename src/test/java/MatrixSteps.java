@@ -5,12 +5,12 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
+// CHANGED: Use JUnit 5 assertions
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.assertArrayEquals;
 
 public class MatrixSteps {
     double det ;
@@ -21,7 +21,7 @@ public class MatrixSteps {
 
     @Given("I have A Matrix")
     public void iHaveAMatrix() {
-         mat=new Matrix();
+        mat=new Matrix();
     }
 
     @When("I compute determinant of")
@@ -42,8 +42,8 @@ public class MatrixSteps {
 
     @Then("The result of determinant is {}")
     public void iFindAsDeterminantResult(double arg0) {
-        Assert.assertEquals(arg0,det,0);
-
+        // CHANGED: Removed "Assert." prefix and used modern assertEquals
+        assertEquals(arg0, det, 0);
     }
 
 
@@ -74,9 +74,7 @@ public class MatrixSteps {
             Tdata[i][j+2]= columns.get("col3");
             i=i+1;
         }
-        assertArrayEquals(Tdata,transposeMatrix);
-
-
+        assertArrayEquals(Tdata, transposeMatrix);
     }
 
     // Inverse
@@ -104,46 +102,4 @@ public class MatrixSteps {
         for (Map<String, Double> columns : rows){
             int j =0;
             Tdata[i][j]= columns.get("col1");
-            Tdata[i][j+1] = columns.get("col2");
-            i=i+1;
-        }
-        assertArrayEquals(Tdata,inverseMatrix);
-
-
-    }
-
-
-    // Cofactor
-
-    @When("I compute cofactor of")
-    public void iComputeCofactorOf(DataTable table) throws NoSquareException {
-        double [][] data = new double[2][2];
-        List<Map<String, Double>> rows = table.asMaps(String.class, Double.class);
-        int i =0;
-        for (Map<String, Double> columns : rows){
-            int j =0;
-            data[i][j]= columns.get("col1");
-            data[i][j+1] = columns.get("col2");
-            i=i+1;
-        }
-        mat.setData(data);
-        cofactorMatrix = MatrixMathematics.cofactor(mat).getValues();
-    }
-
-    @Then("The result of cofactor is")
-    public void iFindAsCofactoreResult(DataTable table) {
-        double [][] Tdata = new double[2][2];
-        List<Map<String, Double>> rows = table.asMaps(String.class, Double.class);
-        int i =0;
-        for (Map<String, Double> columns : rows){
-            int j =0;
-            Tdata[i][j]= columns.get("col1");
-            Tdata[i][j+1] = columns.get("col2");
-            i=i+1;
-        }
-        assertArrayEquals(Tdata,cofactorMatrix);
-
-
-    }
-}
-
+            Tdata[i][j+1] = columns.ge
