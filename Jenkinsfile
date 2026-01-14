@@ -57,8 +57,7 @@ pipeline {
         }
         success {
                     echo 'Pipeline Succeeded!'
-                    // ADD THIS LINE:
-                    mail to: 'YOUR_EMAIL@gmail.com',
+                    mail to: 'ls_yanouche@esi.dz',
                          subject: "SUCCESS: ${currentBuild.fullDisplayName}",
                          body: "The pipeline finished successfully! View results at ${env.BUILD_URL}"
         }
